@@ -35,4 +35,19 @@ for ( var r = 0; r < meshRows - 1; r++ ) {
   }
 }
 
-console.log( );
+// get length of side for two heights next to each other
+function getBaseSideLength ( aHeight, bHeight ) {
+  return Math.sqrt(
+    Math.pow( baseLength, 2 ) + Math.pow( Math.abs( aHeight - bHeight ), 2 )
+  );
+}
+
+// get length of side for two heights diagonaly from each other
+function getDiagonalSideLength ( aHeight, bHeight ) {
+  return Math.sqrt(
+    Math.pow( diagonalLength, 2 ) + Math.pow( Math.abs( aHeight - bHeight ), 2 )
+  );
+}
+
+console.log(
+);

@@ -28,19 +28,15 @@ var meshInput = [
   [ 0, 15, 20, 15, 0 ],
   [ 0, 10, 25, 20, 0 ],
   [ 0,  5, 10, 15, 0 ],
-  [ 0,  0,  0,  0, 0 ],
+  [ 0,  0,  0,  0, 0 ]
 ];
-
-// get number of rows & columns in mesh
-var meshRows = meshInput.length,
- meshColumns = meshInput[ 0 ].length;
 
 // mesh squares
 var meshSquares = [];
 
 // add height points to squares
-for ( var r = 0; r < meshRows - 1; r++ ) {
-  for ( var c = 0; c < meshColumns; c++ ) {
+for ( var r = 0; r < meshInput.length - 1; r++ ) {
+  for ( var c = 0; c < meshInput[ 0 ].length - 1 ; c++ ) {
     meshSquares.push({
       topLeft: meshInput[ r ][ c ],
       topRight: meshInput[ r ][ c + 1 ],
@@ -57,7 +53,7 @@ function getSideLength ( base, aHeight, bHeight ) {
   );
 }
 
-// get all side lengths a single mesh square
+// get all side lengths for a single mesh square
 // A --- B
 // |   ╱ |
 // | ╱   |
@@ -72,8 +68,6 @@ function getAllSideLengths ( meshItem ) {
   };
 }
 
-new Path.Line( [ 100, 100 ], [ 100, 200 ] ).style = cutStyle;
-
-console.log(
-  foldStyle
-);
+for ( var i = 0; i < meshSquares.length; i++ ) {
+  console.log( getAllSideLengths( meshSquares[ i ] ) );
+}

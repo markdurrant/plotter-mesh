@@ -5,6 +5,16 @@ var baseLength     = 10,
 // set a scale to make drawing easier
 var scale = 10;
 
+// set cut styles
+var cutStyle = {
+  strokeColor: 'black',
+  strokeWidth: 2,
+};
+
+// set fold styles
+var foldStyle = cutStyle;
+    foldStyle.dashArray = [ 4, 4 ];
+
 // a grid of points of varying heights
 // ● - ● - ●
 // | / | / |
@@ -62,6 +72,8 @@ function getAllSideLengths ( meshItem ) {
   };
 }
 
+new Path.Line( [ 100, 100 ], [ 100, 200 ] ).style = cutStyle;
+
 console.log(
-  getAllSideLengths( meshSquares[0] )
+  foldStyle
 );

@@ -36,18 +36,26 @@ for ( var r = 0; r < meshRows - 1; r++ ) {
 }
 
 // get length of side for two heights next to each other
-function getBaseSideLength ( aHeight, bHeight ) {
+function getSideLength ( base, aHeight, bHeight ) {
   return Math.sqrt(
-    Math.pow( baseLength, 2 ) + Math.pow( Math.abs( aHeight - bHeight ), 2 )
+    Math.pow( base, 2 ) + Math.pow( Math.abs( aHeight - bHeight ), 2 )
   );
 }
 
-// get length of side for two heights diagonaly from each other
-function getDiagonalSideLength ( aHeight, bHeight ) {
-  return Math.sqrt(
-    Math.pow( diagonalLength, 2 ) + Math.pow( Math.abs( aHeight - bHeight ), 2 )
-  );
+// get all side lengths a single mesh square
+// A - B
+// | / |
+// C - D
+function getAllSideLengths ( meshItem ) {
+  return {
+    AB: getSideLength( baseLength, meshItem.topLeft, meshItem.topRight ),
+    AC: getSideLength( baseLength, meshItem.topLeft, meshItem.bottomLeft ),
+    BC: getSideLength( diagonalLength, meshItem.topRight, meshItem.bottomLeft ),
+    BD: getSideLength( baseLength, meshItem.topRight, meshItem.bottomRight ),
+    CD: getSideLength( baseLength, meshItem.bottomLeft, meshItem.bottomRight )
+  };
 }
 
 console.log(
+  getAllSideLengths( meshSquares[0] )
 );

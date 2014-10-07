@@ -1,4 +1,11 @@
-// input = grid of points of varying heights
+// distance between points in 2d mesh
+var baseLength     = 10,
+    diagonalLength = Math.sqrt( Math.pow( baseLength, 2 ) * 2 );
+
+// set a scale to make drawing easier
+var scale = 10;
+
+// a grid of points of varying heights
 // parent array stores rows
 // child arrays store individual heights
 var meshInput = [
@@ -28,4 +35,4 @@ for ( var r = 0; r < meshRows - 1; r++ ) {
   }
 }
 
-console.log( meshSquares[ 6 ] );
+console.log( );

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PLOTTER MESH EXPERIMENTS</title>
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- svg output -->
+  <code id="svg-output"></code>
+
+  <!-- paper js canvas element -->
+  <canvas id="plotterMesh" resize></canvas>
+
+  <script src="js/vendor/jquery-2.1.1.min.js"></script>
+  <script src="js/vendor/paper-full.min.js"></script>
+  <script src="js/main.js"></script>
+  <script type="text/paperscript" src="js/plotterMesh.js" canvas="plotterMesh"></script>
+</body>
+</html>

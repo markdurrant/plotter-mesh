@@ -6,6 +6,11 @@ var baseLength     = 10,
 var scale = 10;
 
 // a grid of points of varying heights
+// ● - ● - ●
+// | / | / |
+// ● - ● - ●
+// | / | / |
+// ● - ● - ●
 // parent array stores rows
 // child arrays store individual heights
 var meshInput = [
@@ -43,9 +48,10 @@ function getSideLength ( base, aHeight, bHeight ) {
 }
 
 // get all side lengths a single mesh square
-// A - B
-// | / |
-// C - D
+// A --- B
+// |   ╱ |
+// | ╱   |
+// C --- D
 function getAllSideLengths ( meshItem ) {
   return {
     AB: getSideLength( baseLength, meshItem.topLeft, meshItem.topRight ),

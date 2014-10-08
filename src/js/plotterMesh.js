@@ -110,12 +110,42 @@ function drawSection ( allSideLengths ) {
     )
   ]);
 
-  AB.rotate( 45, B );
+  // side AB
+  AC.addChildren([
+    drawPath( [ C, C - [ 0, allSideLengths.AB ] ], 'green', true ),
+    drawPath(
+      [ C, C - tabSize, C - [ tabSize, allSideLengths.AB - tabSize ], C - [ 0, allSideLengths.AB ] ],
+      'green', false
+    )
+  ]);
+
+  // side BD
+  BD.addChildren([
+    drawPath( [ B, B + [ 0, allSideLengths.BD ] ], 'purple', true ),
+    drawPath(
+      [ B, B + tabSize, B + [ tabSize, allSideLengths.BD - tabSize ], B + [ 0, allSideLengths.BD ] ],
+      'purple', false
+    )
+  ]);
+
+  // side CD
+  CD.addChildren([
+    drawPath( [ C, C - [ 0, allSideLengths.CD ] ], 'orange', true ),
+    drawPath(
+      [ C, C + [ tabSize, - tabSize ], C - [ - tabSize, allSideLengths.CD - tabSize ], C - [ 0, allSideLengths.CD ] ],
+      'orange', false
+    )
+  ]);
+
+  AB.rotate( 90, B );
+  AC.rotate( - 90, C );
+  CD.rotate( 90, C  );
+  BD.rotate( - 90, B  );
 
   // add all lines/sides to section & scale
-  section.addChildren( [ BC, AB ] );
+  section.addChildren( [ BC, AB, AC, BD, CD ] );
   section.scale( scale );
 }
 
-console.log( getAllSideLengths( meshSquares[ 0 ] ) );
-drawSection( getAllSideLengths( meshSquares[ 0 ] ) );
+console.log( getAllSideLengths( meshSquares[ 5 ] ) );
+drawSection( getAllSideLengths( meshSquares[ 5 ] ) );

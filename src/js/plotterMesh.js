@@ -2,9 +2,10 @@
 var canvas = $( '#plotterMesh' ),
     canvasCenter = new Point( canvas.width() / 2, canvas.height() / 2 );
 
-// distance between points in 2d mesh
+// distance between points in 2d mesh & tab size
 var baseLength = 10,
-    diagonalLength = Math.sqrt( Math.pow( baseLength, 2 ) * 2 );
+    diagonalLength = Math.sqrt( Math.pow( baseLength, 2 ) * 2 ),
+    tabSize = 1;
 
 // set a scale to make drawing easier
 var scale = 20;
@@ -66,17 +67,16 @@ function getAllSideLengths ( meshItem ) {
   };
 }
 
-// draw a line
-function drawLine ( from, to, color, dashed ) {
+// draw a path
+function drawPath ( segments, color, dashed ) {
+  var dashVal = 0;
+
   if ( dashed === true ) {
-    var dashVal = dashArray;
-  } else {
-    var dashVal = 0;
+    dashVal = dashArray;
   }
 
-  var line = new Path.Line({
-    from: from,
-    to: to,
+  var line = new Path({
+    segments: segments,
     strokeColor: color,
     strokeWidth: strokeWidth,
     dashArray: dashVal
@@ -87,24 +87,35 @@ function drawLine ( from, to, color, dashed ) {
 
 // draw a mesh section
 function drawSection ( allSideLengths ) {
+  // section & side groups
   var section = new Group(),
       AB = new Group(),
       AC = new Group(),
       BD = new Group(),
       CD = new Group();
 
-
+  // top & bottom points
   var B = new Point( canvasCenter - [ 0, allSideLengths.BC / 2 ] ),
       C = new Point( canvasCenter + [ 0, allSideLengths.BC / 2 ] );
 
-  var BC = drawLine( B, C, 'red', true );
+  // center line
+  var BC = drawPath( [ B, C ], 'red', true );
 
+  // side AB
   AB.addChildren([
+    drawPath( [ B, B + [ 0, allSideLengths.AB ] ], 'blue', true ),
+    drawPath(
+      [ B, B + [ - tabSize, tabSize ], B + [ - tabSize, allSideLengths.AB - tabSize ], B + [ 0, allSideLengths.AB ] ],
+      'blue', false
+    )
   ]);
 
-  section.addChildren( [ BC ] );
+  AB.rotate( 45, B );
+
+  // add all lines/sides to section & scale
+  section.addChildren( [ BC, AB ] );
   section.scale( scale );
 }
 
-// console.log( getAllSideLengths( meshSquares[ 0 ] ) );
+console.log( getAllSideLengths( meshSquares[ 0 ] ) );
 drawSection( getAllSideLengths( meshSquares[ 0 ] ) );

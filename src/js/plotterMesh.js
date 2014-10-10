@@ -30,13 +30,13 @@ var meshInput = [
   [ 0,  0,  0,  0, 0 ]
 ];
 
-// mesh squares
-var meshSquares = [];
+// mesh squares height points
+var meshSquaresHeights = [];
 
 // add height points to squares
 for ( var r = 0; r < meshInput.length - 1; r++ ) {
   for ( var c = 0; c < meshInput[ 0 ].length - 1 ; c++ ) {
-    meshSquares.push({
+    meshSquaresHeights.push({
       topLeft: meshInput[ r ][ c ],
       topRight: meshInput[ r ][ c + 1 ],
       bottomLeft: meshInput[ r + 1 ][ c ],
@@ -67,3 +67,32 @@ function getAllSideLengths ( meshItem ) {
   };
 }
 
+// mesh squares side lengths
+var meshSquaresSides = [];
+
+// add side lengths to squares
+for ( var s = 0; s < meshSquaresHeights.length; s++ ) {
+  meshSquaresSides.push( getAllSideLengths( meshSquaresHeights[ s ] ) );
+}
+
+// draw a dot at points
+function drawDot ( point, color ) {
+  return new Path.Circle({
+    center: point,
+    radius: 1.5,
+    fillColor: color
+  });
+}
+
+// draw a section
+function drawSection ( sideLengths ) {
+  var B = new Point( canvasCenter, canvasCenter - sideLengths.BC  ),
+      C = new Point( canvasCenter, canvasCenter + sideLengths.BC  );
+
+  var section = new Group([
+    drawDot( B, 'red' ),
+    drawDot( C, 'blue' )
+  ]);
+}
+
+drawSection( meshSquaresSides[ 0 ] );

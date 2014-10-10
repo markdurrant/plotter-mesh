@@ -206,4 +206,6 @@ html, body {
   background-color: white;
   color: black;
   font-family: sans-serif;
-  line-height: 1.4; }
+  line-height: 1.4;
+  margin: 0;
+  padding: 0; }

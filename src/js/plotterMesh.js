@@ -12,7 +12,7 @@ var scale = 10;
 
 // set cut styles
 var strokeWidth = 2,
-    dashArray = [ 4, 4 ];
+    dashArray = [ 2, 6 ];
 
 // a grid of points of varying heights
 // ● - ● - ●
@@ -102,7 +102,7 @@ function findPoints ( sideLengths ) {
     B: Bpoint,
     C: Cpoint,
     D: Dpoint
-  }
+  };
 }
 
 // example square
@@ -111,7 +111,52 @@ var squareOne = findPoints( meshSquaresSides[ 0 ] );
 // draw fold lines
 new Path({
   segments: [ squareOne.B, squareOne.D, squareOne.C, squareOne.A, squareOne.B, squareOne.C ],
-  strokeWidth: 1,
-  strokeColor: 0,
-  dashArray: dashArray
-})
+  strokeWidth: strokeWidth,
+  strokeColor: '#09f',
+  dashArray: dashArray,
+  strokeJoin: 'round',
+  strokeCap: 'round'
+});
+
+// draw AB tab
+new Path({
+  segments: [
+    squareOne.B,
+    squareOne.B - tabSize * scale,
+    squareOne.A - tabSize * scale,
+    squareOne.A
+  ],
+  strokeWidth: strokeWidth,
+  strokeColor: '#f09',
+  strokeJoin: 'round',
+  strokeCap: 'round'
+});
+
+// draw AC tab
+new Path({
+  segments: [
+    squareOne.A,
+    squareOne.A + [ - tabSize * scale, tabSize * scale ],
+    squareOne.C + [ - tabSize * scale, tabSize * scale ],
+    squareOne.C
+  ],
+  strokeWidth: strokeWidth,
+  strokeColor: '#0f9',
+  strokeJoin: 'round',
+  strokeCap: 'round'
+});
+
+// draw BD tab
+
+new Path({
+  segments: [
+    squareOne.B,
+    squareOne.B + [ tabSize * scale, - tabSize * scale ],
+    squareOne.D - [ tabSize * scale, tabSize * scale ],
+    squareOne.D
+  ],
+  strokeWidth: strokeWidth,
+  strokeColor: '#f99',
+  strokeJoin: 'round',
+  strokeCap: 'round'
+});

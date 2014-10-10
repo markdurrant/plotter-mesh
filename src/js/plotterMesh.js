@@ -8,7 +8,7 @@ var baseLength = 10,
     tabSize = 1;
 
 // set a scale to make drawing easier
-var scale = 20;
+var scale = 10;
 
 // set cut styles
 var strokeWidth = 2,
@@ -79,20 +79,39 @@ for ( var s = 0; s < meshSquaresHeights.length; s++ ) {
 function drawDot ( point, color ) {
   return new Path.Circle({
     center: point,
-    radius: 1.5,
+    radius: 2,
     fillColor: color
   });
 }
 
-// draw a section
-function drawSection ( sideLengths ) {
-  var B = new Point( canvasCenter, canvasCenter - sideLengths.BC  ),
-      C = new Point( canvasCenter, canvasCenter + sideLengths.BC  );
+// find Points
+function findPoints ( sideLengths ) {
+  var Bpoint = new Point( canvasCenter.x, canvasCenter.y - sideLengths.BC * scale ),
+      Cpoint = new Point( canvasCenter.x, canvasCenter.y + sideLengths.BC * scale );
 
-  var section = new Group([
-    drawDot( B, 'red' ),
-    drawDot( C, 'blue' )
-  ]);
+  var ABdistance = new Path.Circle( Bpoint, sideLengths.AB * 2 * scale ),
+      ACdistance = new Path.Circle( Cpoint, sideLengths.AC * 2 * scale ),
+      BDdistance = new Path.Circle( Bpoint, sideLengths.BD * 2 * scale ),
+      CDdistance = new Path.Circle( Cpoint, sideLengths.CD * 2 * scale );
+
+  var Apoint = ABdistance.getIntersections( ACdistance )[ 1 ].point,
+      Dpoint = BDdistance.getIntersections( CDdistance )[ 0 ].point;
+
+  return {
+    A: Apoint,
+    B: Bpoint,
+    C: Cpoint,
+    D: Dpoint
+  }
 }
 
-drawSection( meshSquaresSides[ 0 ] );
+// example square
+var squareOne = findPoints( meshSquaresSides[ 0 ] );
+
+// draw fold lines
+new Path({
+  segments: [ squareOne.B, squareOne.D, squareOne.C, squareOne.A, squareOne.B, squareOne.C ],
+  strokeWidth: 1,
+  strokeColor: 0,
+  dashArray: dashArray
+})

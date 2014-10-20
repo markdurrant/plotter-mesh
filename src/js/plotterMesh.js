@@ -99,6 +99,11 @@ function findPoints ( sideLengths ) {
   var Apoint = ABdistance.getIntersections( ACdistance )[ 1 ].point,
       Dpoint = BDdistance.getIntersections( CDdistance )[ 0 ].point;
 
+  ABdistance.remove();
+  ACdistance.remove();
+  BDdistance.remove();
+  CDdistance.remove();
+
   return {
     A: Apoint,
     B: Bpoint,

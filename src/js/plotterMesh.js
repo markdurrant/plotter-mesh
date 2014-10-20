@@ -8,7 +8,7 @@ var baseLength = 10,
     tabSize = 1;
 
 // set a scale to make drawing easier
-var scale = 10;
+var scale = 8;
 
 // set cut styles
 var strokeWidth = 2,
@@ -75,15 +75,6 @@ for ( var s = 0; s < meshSquaresHeights.length; s++ ) {
   meshSquaresSides.push( getAllSideLengths( meshSquaresHeights[ s ] ) );
 }
 
-// draw a dot at points
-function drawDot ( point, color ) {
-  return new Path.Circle({
-    center: point,
-    radius: 2,
-    fillColor: color
-  });
-}
-
 // find Points
 function findPoints ( sideLengths ) {
   var Bpoint = new Point( canvasCenter.x, canvasCenter.y - sideLengths.BC * scale ),
@@ -108,55 +99,22 @@ function findPoints ( sideLengths ) {
 // example square
 var squareOne = findPoints( meshSquaresSides[ 0 ] );
 
-// draw fold lines
-new Path({
-  segments: [ squareOne.B, squareOne.D, squareOne.C, squareOne.A, squareOne.B, squareOne.C ],
-  strokeWidth: strokeWidth,
-  strokeColor: '#09f',
-  dashArray: dashArray,
-  strokeJoin: 'round',
-  strokeCap: 'round'
-});
+// draw a dot at points
+function drawDot ( point, color ) {
+  return new Path.Circle({
+    center: point,
+    radius: 2,
+    fillColor: color
+  });
+}
 
-// draw AB tab
-new Path({
-  segments: [
-    squareOne.B,
-    squareOne.B - tabSize * scale,
-    squareOne.A - tabSize * scale,
-    squareOne.A
-  ],
-  strokeWidth: strokeWidth,
-  strokeColor: '#f09',
-  strokeJoin: 'round',
-  strokeCap: 'round'
-});
+// draw dots at each point
+drawDot( squareOne.A, "red" );
+drawDot( squareOne.B, "blue" );
+drawDot( squareOne.C, "green" );
+drawDot( squareOne.D, "orange" );
 
-// draw AC tab
-new Path({
-  segments: [
-    squareOne.A,
-    squareOne.A + [ - tabSize * scale, tabSize * scale ],
-    squareOne.C + [ - tabSize * scale, tabSize * scale ],
-    squareOne.C
-  ],
-  strokeWidth: strokeWidth,
-  strokeColor: '#0f9',
-  strokeJoin: 'round',
-  strokeCap: 'round'
-});
+// draw a tab
+function drawTab ( pointA, pointB ) {
 
-// draw BD tab
-
-new Path({
-  segments: [
-    squareOne.B,
-    squareOne.B + [ tabSize * scale, - tabSize * scale ],
-    squareOne.D - [ tabSize * scale, tabSize * scale ],
-    squareOne.D
-  ],
-  strokeWidth: strokeWidth,
-  strokeColor: '#f99',
-  strokeJoin: 'round',
-  strokeCap: 'round'
-});
+}

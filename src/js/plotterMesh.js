@@ -127,7 +127,7 @@ function drawTab ( pointA, pointB ) {
   });
 
   // draw cut line
-  var tab = new Path({
+  var cut = new Path({
     segments: [
       pointA,
       ( pointA + [ tabSize, 0 ] ).rotate( ( pointB - pointA ).angle - 45, pointA ),
@@ -138,7 +138,11 @@ function drawTab ( pointA, pointB ) {
     strokeColor: 0
   });
 
-  return fold, tab;
+  var tab = new Group(
+    cut, fold
+  );
+
+  return tab;
 }
 
 // draw a square
@@ -160,7 +164,9 @@ function drawSquare ( squarePoints ) {
   return square;
 }
 
-drawSquare( findPoints( meshSquaresSides[ 3 ] ) );
+for ( var ms = 0; ms < meshSquaresSides.length; ms++ ) {
+  drawSquare( findPoints( meshSquaresSides[ ms ] ) );
+}
 
 var output = $( '#svg-output' );
 output.text( project.exportSVG({ asString: true }) );

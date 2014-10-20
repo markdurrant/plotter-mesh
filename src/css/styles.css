@@ -209,3 +209,8 @@ html, body {
   line-height: 1.4;
   margin: 0;
   padding: 0; }
+
+/* line 48, /Users/mark/repos/plotter-mesh/sass/styles.scss */
+#svg-output {
+  position: absolute;
+  color: red; }

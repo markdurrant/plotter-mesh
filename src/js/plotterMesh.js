@@ -156,3 +156,6 @@ function drawSquare ( squarePoints ) {
 }
 
 drawSquare( findPoints( meshSquaresSides[ 3 ] ) );
+
+var output = $( '#svg-output' );
+output.text( project.exportSVG({ asString: true }) );

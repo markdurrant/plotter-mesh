@@ -7,11 +7,8 @@ var baseLength = 10,
     diagonalLength = Math.sqrt( Math.pow( baseLength, 2 ) * 2 ),
     tabSize = 5;
 
-// set a scale to make drawing easier
-var scale = 5;
-
 // set cut styles
-var strokeWidth = 2,
+var strokeWidth = 1,
     dashArray = [ 2, 6 ];
 
 // a grid of points of varying heights
@@ -29,6 +26,20 @@ var meshInput = [
   [ 0,  5, 10, 15, 0 ],
   [ 0,  0,  0,  0, 0 ]
 ];
+
+// set a scale to make drawing easier
+var scale = 8;
+
+// scale everything up
+for ( var s = 0; s < meshInput.length; s++ ) {
+  for ( var s2 = 0; s2 < meshInput[ 0 ].length; s2++ ) {
+    meshInput[ s ][ s2 ] *= scale;
+  }
+}
+
+baseLength *= scale;
+diagonalLength *= scale;
+tabSize *= scale;
 
 // mesh squares height points
 var meshSquaresHeights = [];
@@ -77,13 +88,13 @@ for ( var s = 0; s < meshSquaresHeights.length; s++ ) {
 
 // find Points
 function findPoints ( sideLengths ) {
-  var Bpoint = new Point( canvasCenter.x, canvasCenter.y - sideLengths.BC * scale ),
-      Cpoint = new Point( canvasCenter.x, canvasCenter.y + sideLengths.BC * scale );
+  var Bpoint = new Point( canvasCenter.x, canvasCenter.y - sideLengths.BC ),
+      Cpoint = new Point( canvasCenter.x, canvasCenter.y + sideLengths.BC );
 
-  var ABdistance = new Path.Circle( Bpoint, sideLengths.AB * 2 * scale ),
-      ACdistance = new Path.Circle( Cpoint, sideLengths.AC * 2 * scale ),
-      BDdistance = new Path.Circle( Bpoint, sideLengths.BD * 2 * scale ),
-      CDdistance = new Path.Circle( Cpoint, sideLengths.CD * 2 * scale );
+  var ABdistance = new Path.Circle( Bpoint, sideLengths.AB * 2 ),
+      ACdistance = new Path.Circle( Cpoint, sideLengths.AC * 2 ),
+      BDdistance = new Path.Circle( Bpoint, sideLengths.BD * 2 ),
+      CDdistance = new Path.Circle( Cpoint, sideLengths.CD * 2 );
 
   var Apoint = ABdistance.getIntersections( ACdistance )[ 1 ].point,
       Dpoint = BDdistance.getIntersections( CDdistance )[ 0 ].point;
@@ -109,10 +120,10 @@ function drawDot ( point, color ) {
 }
 
 // draw dots at each point
-// drawDot( squareOne.A, "red" );
-// drawDot( squareOne.B, "blue" );
-// drawDot( squareOne.C, "green" );
-// drawDot( squareOne.D, "orange" );
+drawDot( squareOne.A, "red" );
+drawDot( squareOne.B, "blue" );
+drawDot( squareOne.C, "green" );
+drawDot( squareOne.D, "orange" );
 
 // draw a tab
 function drawTab ( pointA, pointB ) {
@@ -125,7 +136,7 @@ function drawTab ( pointA, pointB ) {
   });
 
   var angleOne = ( pointB - pointA ).angle,
-      angleTwo = ( pointA - pointB ).angle + 90;
+      angleTwo = ( pointA - pointB ).angle;
 
   if ( angleOne > angleTwo ) {
     angleOne += 90;
@@ -135,15 +146,15 @@ function drawTab ( pointA, pointB ) {
   var tab = new Path({
     segments: [
       pointA,
-      ( pointA + [ tabSize * scale, 0 ] ).rotate( angleOne - 45, pointA ),
-      ( pointB + [ tabSize * scale, 0 ] ).rotate( angleTwo - 45 , pointB ),
+      ( pointA + [ tabSize, 0 ] ).rotate( angleOne - 45, pointA ),
+      ( pointB + [ tabSize, 0 ] ).rotate( angleTwo + 45 , pointB ),
       pointB
     ],
     strokeWidth: strokeWidth,
     strokeColor: 0
   });
 
-  console.log( angleOne, angleTwo );
+  // console.log( angleOne, angleTwo );
 
   return fold, tab;
 }

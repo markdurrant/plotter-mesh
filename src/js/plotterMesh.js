@@ -110,23 +110,9 @@ function findPoints ( sideLengths ) {
 // example square
 var squareOne = findPoints( meshSquaresSides[ 0 ] );
 
-// draw a dot at points
-function drawDot ( point, color ) {
-  return new Path.Circle({
-    center: point,
-    radius: 2,
-    fillColor: color
-  });
-}
-
-// draw dots at each point
-drawDot( squareOne.A, "red" );
-drawDot( squareOne.B, "blue" );
-drawDot( squareOne.C, "green" );
-drawDot( squareOne.D, "orange" );
-
 // draw a tab
 function drawTab ( pointA, pointB ) {
+  // draw the fold line
   var fold = new Path.Line({
     from: pointA,
     to: pointB,
@@ -135,28 +121,38 @@ function drawTab ( pointA, pointB ) {
     strokeColor: 0,
   });
 
-  var angleOne = ( pointB - pointA ).angle,
-      angleTwo = ( pointA - pointB ).angle;
-
-  if ( angleOne > angleTwo ) {
-    angleOne += 90;
-    angleTwo += 270;
-  }
-
+  // draw cut line
   var tab = new Path({
     segments: [
       pointA,
-      ( pointA + [ tabSize, 0 ] ).rotate( angleOne - 45, pointA ),
-      ( pointB + [ tabSize, 0 ] ).rotate( angleTwo + 45 , pointB ),
+      ( pointA + [ tabSize, 0 ] ).rotate( ( pointB - pointA ).angle - 45, pointA ),
+      ( pointB + [ tabSize, 0 ] ).rotate( ( pointA - pointB ).angle + 45 , pointB ),
       pointB
     ],
     strokeWidth: strokeWidth,
     strokeColor: 0
   });
 
-  // console.log( angleOne, angleTwo );
-
   return fold, tab;
 }
 
-drawTab( squareOne.B, squareOne.D );
+// draw a square
+function drawSquare ( squarePoints ) {
+  var square = new Group([
+    drawTab( squarePoints.A, squarePoints.B ),
+    drawTab( squarePoints.C, squarePoints.A ),
+    drawTab( squarePoints.B, squarePoints.D ),
+    drawTab( squarePoints.D, squarePoints.C ),
+    new Path.Line({
+      from: squarePoints.B,
+      to: squarePoints.C,
+      strokeWidth: strokeWidth,
+      dashArray: dashArray,
+      strokeColor: 0,
+    })
+  ]);
+
+  return square;
+}
+
+drawSquare( findPoints( meshSquaresSides[ 3 ] ) );

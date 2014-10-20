@@ -5,10 +5,10 @@ var canvas = $( '#plotterMesh' ),
 // distance between points in 2d mesh & tab size
 var baseLength = 10,
     diagonalLength = Math.sqrt( Math.pow( baseLength, 2 ) * 2 ),
-    tabSize = 1;
+    tabSize = 5;
 
 // set a scale to make drawing easier
-var scale = 8;
+var scale = 5;
 
 // set cut styles
 var strokeWidth = 2,
@@ -109,12 +109,43 @@ function drawDot ( point, color ) {
 }
 
 // draw dots at each point
-drawDot( squareOne.A, "red" );
-drawDot( squareOne.B, "blue" );
-drawDot( squareOne.C, "green" );
-drawDot( squareOne.D, "orange" );
+// drawDot( squareOne.A, "red" );
+// drawDot( squareOne.B, "blue" );
+// drawDot( squareOne.C, "green" );
+// drawDot( squareOne.D, "orange" );
 
 // draw a tab
 function drawTab ( pointA, pointB ) {
+  var fold = new Path.Line({
+    from: pointA,
+    to: pointB,
+    strokeWidth: strokeWidth,
+    dashArray: dashArray,
+    strokeColor: 0,
+  });
 
+  var angleOne = ( pointB - pointA ).angle,
+      angleTwo = ( pointA - pointB ).angle + 90;
+
+  if ( angleOne > angleTwo ) {
+    angleOne += 90;
+    angleTwo += 270;
+  }
+
+  var tab = new Path({
+    segments: [
+      pointA,
+      ( pointA + [ tabSize * scale, 0 ] ).rotate( angleOne - 45, pointA ),
+      ( pointB + [ tabSize * scale, 0 ] ).rotate( angleTwo - 45 , pointB ),
+      pointB
+    ],
+    strokeWidth: strokeWidth,
+    strokeColor: 0
+  });
+
+  console.log( angleOne, angleTwo );
+
+  return fold, tab;
 }
+
+drawTab( squareOne.B, squareOne.D );
